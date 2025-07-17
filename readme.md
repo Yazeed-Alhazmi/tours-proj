@@ -1,2 +1,1 @@
 # Tours Application
-Tours app
