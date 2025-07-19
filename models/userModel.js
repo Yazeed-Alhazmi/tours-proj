@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
+const mongoose_delete = require('mongoose-delete');
 
 
 const userSchema = new mongoose.Schema({
@@ -49,13 +50,10 @@ const userSchema = new mongoose.Schema({
     },
     passwordResetExpires: {
         type: Date
-    },
-    deleted: {
-        type: Boolean,
-        default: false,
-        select: false
     }
 });
+
+
 
 // A password hashing middleware. will run for new users or when users changes the password
 userSchema.pre('save', async function(next){
@@ -77,12 +75,13 @@ userSchema.pre('save', async function(next){
 });
 
 // to skip any deleted users when we retrieve users
-userSchema.pre(/^find/, function(next){
+// userSchema.pre(/^find/, function(next){
 
-    this.find({deleted:{$ne:true}});
-    next();
+//     this.find({deleted:{$ne:true}});
+//     next();
 
-});
+// });
+userSchema.plugin(mongoose_delete, { deletedAt: true , overrideMethods: 'all' });
 
 
 // to compare the input password with the hashed one
@@ -120,5 +119,7 @@ userSchema.methods.createPasswordResetToken = function() {
 
 
 const User = mongoose.model('User', userSchema);
+
+
 
 module.exports = User;

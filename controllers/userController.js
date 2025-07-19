@@ -12,9 +12,7 @@ const catchAsync = fn => {
 
 exports.getAllUsers = async (req, res, next) => {
     try {
-    
         const users = await User.find();
-        
         
         res.status(200).json({
             status:"succsess",
@@ -22,6 +20,7 @@ exports.getAllUsers = async (req, res, next) => {
         });
     }
     catch (err) {
+        console.log(err);
         res.status(500).json({
             status:"failed",
             message: err
@@ -80,7 +79,7 @@ exports.updateMe = async (req, res, next) => {
 // to delete a user by updating the delete flag to 'true'
 exports.deleteMe = async (req, res, next) => {
     try {
-        await User.findByIdAndUpdate(req.user.id, {deleted: true});
+        await User.deleteById(req.user.id);
 
         res.status(204).json({
             status:"succsess",
