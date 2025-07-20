@@ -17,6 +17,11 @@ A RESTful API for managing tours, built with **Node.js**, **Express**, and **Mon
 
 ## Getting Started
 
+**Prerequisite:** 
+
+Ensure [Node.js](https://nodejs.org/) is installed
+
+
 1. **Clone the repo**
    ```bash
    git clone  https://github.com/Yazeed-Alhazmi/tours-proj.git
