@@ -99,7 +99,6 @@ exports.getAllTours = async (req, res) =>{
 
         // Aggregation
         const tours = await Tour.aggregate(pipline);
-        console.log(tours);
         
         
         res.status(200).json({
