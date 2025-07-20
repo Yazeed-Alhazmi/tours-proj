@@ -41,7 +41,7 @@ Ensure [Node.js](https://nodejs.org/) is installed
     NODE_ENV = development
     PORT = 3000
     DATABASE_PASSWORD = <your-password>
-    DATABASE = <your-mongo-url>
+    DATABASE = <your-mongo-uri>
 
     JWT_SECRET=<your-secret>
     JWT_EXPIRES_IN=90d
