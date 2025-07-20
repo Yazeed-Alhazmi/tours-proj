@@ -29,6 +29,7 @@ A RESTful API for managing tours, built with **Node.js**, **Express**, and **Mon
     ```
 
 3. **Set up environment**
+
 Create a .env file with:
     ```bash
     NODE_ENV = development
@@ -54,11 +55,15 @@ Create a .env file with:
 5. **Seeding the Database**
 
 You can import or delete sample tour data from the tours.json file using:
+
 Import: 
+
     ```bash
     node starter/dev-data/data/import-dev-data.js --import
     ```
+
 Delete: 
+
     ```bash
     node starter/dev-data/data/import-dev-data.js --delete
     ```
