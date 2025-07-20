@@ -30,21 +30,22 @@ A RESTful API for managing tours, built with **Node.js**, **Express**, and **Mon
 
 3. **Set up environment**
 
-Create a .env file with:
-    ```bash
-    NODE_ENV = development
-    PORT = 3000
-    DATABASE_PASSWORD = <your-password>
-    DATABASE = <your-mongo-url>
+    Create a .env file with:
 
-    JWT_SECRET=<your-secret>
-    JWT_EXPIRES_IN=90d
+        ```bash
+        NODE_ENV = development
+        PORT = 3000
+        DATABASE_PASSWORD = <your-password>
+        DATABASE = <your-mongo-url>
 
-    EMAIL_USERNAME=<your-email>
-    EMAIL_PASSWORD=<your-gmail-token>
-    EMAIL_HOST=smtp.gmail.com
-    EMAIL_PORT=465
-    ```
+        JWT_SECRET=<your-secret>
+        JWT_EXPIRES_IN=90d
+
+        EMAIL_USERNAME=<your-email>
+        EMAIL_PASSWORD=<your-gmail-token>
+        EMAIL_HOST=smtp.gmail.com
+        EMAIL_PORT=465
+        ```
 
 4. **Start the server**
 
@@ -54,19 +55,19 @@ Create a .env file with:
 
 5. **Seeding the Database**
 
-You can import or delete sample tour data from the tours.json file using:
+    You can import or delete sample tour data from the tours.json file using:
 
-Import: 
+    Import: 
 
-    ```bash
-    node starter/dev-data/data/import-dev-data.js --import
-    ```
+        ```bash
+        node starter/dev-data/data/import-dev-data.js --import
+        ```
 
-Delete: 
+    Delete: 
 
-    ```bash
-    node starter/dev-data/data/import-dev-data.js --delete
-    ```
+        ```bash
+        node starter/dev-data/data/import-dev-data.js --delete
+        ```
 
 
 ## API
