@@ -32,20 +32,20 @@ A RESTful API for managing tours, built with **Node.js**, **Express**, and **Mon
 
     Create a .env file with:
 
-        ```bash
-        NODE_ENV = development
-        PORT = 3000
-        DATABASE_PASSWORD = <your-password>
-        DATABASE = <your-mongo-url>
+    ```bash
+    NODE_ENV = development
+    PORT = 3000
+    DATABASE_PASSWORD = <your-password>
+    DATABASE = <your-mongo-url>
 
-        JWT_SECRET=<your-secret>
-        JWT_EXPIRES_IN=90d
+    JWT_SECRET=<your-secret>
+    JWT_EXPIRES_IN=90d
 
-        EMAIL_USERNAME=<your-email>
-        EMAIL_PASSWORD=<your-gmail-token>
-        EMAIL_HOST=smtp.gmail.com
-        EMAIL_PORT=465
-        ```
+    EMAIL_USERNAME=<your-email>
+    EMAIL_PASSWORD=<your-gmail-token>
+    EMAIL_HOST=smtp.gmail.com
+    EMAIL_PORT=465
+    ```
 
 4. **Start the server**
 
@@ -59,15 +59,15 @@ A RESTful API for managing tours, built with **Node.js**, **Express**, and **Mon
 
     Import: 
 
-        ```bash
-        node starter/dev-data/data/import-dev-data.js --import
-        ```
-
+    ```bash
+    node starter/dev-data/data/import-dev-data.js --import
+    ```
+    
     Delete: 
 
-        ```bash
-        node starter/dev-data/data/import-dev-data.js --delete
-        ```
+    ```bash
+    node starter/dev-data/data/import-dev-data.js --delete
+    ```
 
 
 ## API
