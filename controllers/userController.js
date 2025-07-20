@@ -1,5 +1,5 @@
 const User = require('./../models/userModel');
-const AppError = require('./../appError');
+const AppError = require('../utils/appError');
 
 
 const catchAsync = fn => {

@@ -60,13 +60,13 @@ A RESTful API for managing tours, built with **Node.js**, **Express**, and **Mon
     Import: 
 
     ```bash
-    node starter/dev-data/data/import-dev-data.js --import
+    node utils/import-dev-data.js --import
     ```
     
     Delete: 
 
     ```bash
-    node starter/dev-data/data/import-dev-data.js --delete
+    node utils/import-dev-data.js --delete
     ```
 
 

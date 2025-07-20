@@ -1,6 +1,6 @@
 
 const Tour = require('./../models/tourModel'); 
-const AppError = require('./../appError');
+const AppError = require('../utils/appError');
 
 
 // Retrieve all tours
