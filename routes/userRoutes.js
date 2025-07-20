@@ -2,11 +2,18 @@ const express = require('express');
 const userController = require('./../controllers/userController');
 const authController = require('./../controllers/authController');
 const validators = require('./../models/validators');
+const rateLimit = require('express-rate-limit');
 
 const userRouter = express.Router();
 
+const loginLimiter = rateLimit({
+    max: 5,
+    window: 60 * 60 * 1000,
+    message: 'To many request, please try again in an hour!'
+});
+
 userRouter.post('/signup', authController.signup);
-userRouter.post('/login', validators.loginValidator, authController.login);
+userRouter.post('/login', loginLimiter, validators.loginValidator, authController.login);
 
 userRouter.post('/forgotPassword', authController.forgotPassword);
 userRouter.patch('/resetPassword/:token', authController.resetPassword);
