@@ -57,12 +57,7 @@ exports.signup = async (req, res, next) => {
 exports.login = async (req, res, next) => {
     try {
         const {email, password} = req.body;
-
-        if(!email || !password){
-            return next(new AppError('Please provide an email and a password', 400)); 
-        }
-
-        
+   
         const user = await User.findOne({email}).select('+password'); // password is (select:false) in the schema so we need to use the '+' sign
 
         // if the user does not exist or incorrect password return an error with a message
@@ -90,7 +85,7 @@ exports.login = async (req, res, next) => {
 // a middleware to check the user info
 exports.protect = catchAsync(async (req, res, next) => {
 
-    // check if the tokem exist
+    // check if the token exist
     let token
     if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')){
         token = req.headers.authorization.split(' ')[1];
@@ -122,7 +117,7 @@ exports.protect = catchAsync(async (req, res, next) => {
 
 
 // a restirct middleware to check roles (admin, user, lead-guide, guide)
-exports.restrictTo =  (...roles) => {
+exports.role =  (...roles) => {
     return (req, res, next) => {
         
         if(!roles.includes(req.user.role)){

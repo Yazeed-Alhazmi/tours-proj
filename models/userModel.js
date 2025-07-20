@@ -74,13 +74,6 @@ userSchema.pre('save', async function(next){
 
 });
 
-// to skip any deleted users when we retrieve users
-// userSchema.pre(/^find/, function(next){
-
-//     this.find({deleted:{$ne:true}});
-//     next();
-
-// });
 userSchema.plugin(mongoose_delete, { deletedAt: true , overrideMethods: 'all' });
 
 

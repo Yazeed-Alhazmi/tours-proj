@@ -26,7 +26,7 @@ router.route('/')
 router.route('/:id')
     .get(tourController.getTour) // to retrieve a specific tour
     .patch(tourController.updateTour) // to update a specific tour
-    .delete(authController.protect, authController.restrictTo('admin', 'lead-guide'), tourController.deleteTour); // to delete a specific tour
+    .delete(authController.protect, authController.role('admin', 'lead-guide'), tourController.deleteTour); // to delete a specific tour
 
 
 module.exports = router;

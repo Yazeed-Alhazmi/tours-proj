@@ -51,9 +51,6 @@ const filterObj = (obj, ...allowedFields) => {
 // to update the user name and email
 exports.updateMe = async (req, res, next) => {
     try {
-        if (req.body.password || req.body.passwordConfirm){
-            return next(new AppError('This route is not for password update. Please use /updateMyPassword', 400));
-        }
 
         const filteredBody = filterObj(req.body, 'name', 'email');
 
