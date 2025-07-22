@@ -52,10 +52,10 @@ const filterObj = (obj, ...allowedFields) => {
 exports.updateMe = async (req, res, next) => {
     try {
 
-        const filteredBody = filterObj(req.body, 'name', 'email');
+        const filteredBody = filterObj(req.body, 'name', 'email', 'password');
 
         const updatedUser = await User.findByIdAndUpdate(req.user.id, filteredBody, {new: true, runValidators: true});
-    
+        
 
             res.status(200).json({
             status:"succsess",

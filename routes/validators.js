@@ -9,6 +9,6 @@ exports.loginValidator = [
 
 exports.updateUserValidator = [
 
-    body('password').not().exists().withMessage("This route is not for password update. Please use /updateMyPassword2"),
+    // body('password').not().exists().withMessage("This route is not for password update. Please use /updateMyPassword2"),
     body('passwordConfirm').not().exists().withMessage("This route is not for password update. Please use /updateMyPassword2"),
 ]

@@ -11,7 +11,7 @@ const sendEmail = async options => {
             pass: process.env.EMAIL_PASSWORD
         }
     });
-
+    console.log("in emaiil");
     const mailOptions = {
         to: process.env.EMAIL_USERNAME,
         subject: options.subject,
