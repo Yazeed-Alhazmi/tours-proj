@@ -33,8 +33,9 @@ exports.createReview = async (req, res, next) => {
     }
 };
 
+
 // to retrieve all the reviews with the user name (author) and the tour name
-exports.getAllReviews = async (req, res) => {
+exports.getUserReviews = async (req, res) => {
     try {
         let matchQuery = {};
 
@@ -44,42 +45,12 @@ exports.getAllReviews = async (req, res) => {
             matchQuery.user = user._id;
         };
 
-        // retrieving all the reviews for a specific tour from it's id in the parameters
-        if(req.params.tourId){
-            matchQuery.tour = new mongoose.Types.ObjectId(req.params.tourId);
-        }
-
-        // retrieving all the reviews for a specific tour from it's name in the query
-        if(req.query.tourName){
-            const tourName = req.query.tourName.split('-').join(' ');
-            const tour = await Tour.findOne({name:tourName});
-            matchQuery.tour = tour._id;
-        };
-
 
         pipline = [
 
                 {
                     $match: matchQuery
                 },
-
-
-
-                {
-                    $lookup: {
-                        from: 'users',
-                        localField: 'user',
-                        foreignField: '_id',
-                        as: 'author'
-                    }
-                    
-                },
-
-                {$unwind: '$author'},
-
-
-
-
                 {
                     $lookup: {
                         from: 'tours',
@@ -89,12 +60,9 @@ exports.getAllReviews = async (req, res) => {
                     }
                     
                 },
-
                 {$unwind: '$tour'},
-
-
                 {
-                    $project: {review:1, rating:1, 'author.name':1,"tour.name":1, _id:0}
+                    $project: {review:1, rating:1, "tour.name":1, _id:0}
                 }];
 
         const reviews = await Review.aggregate(pipline);

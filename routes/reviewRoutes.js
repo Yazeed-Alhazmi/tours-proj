@@ -7,7 +7,7 @@ const router = express.Router({ mergeParams:true }); // merge parameters for nes
 
 
 router.route('/')
-    .get(reviewController.getAllReviews)
+    .get(reviewController.getUserReviews)
     .post(authController.protect,
          authController.role('user', 'admin'),
           reviewController.createReview);
