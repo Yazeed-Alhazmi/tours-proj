@@ -1,6 +1,7 @@
 const {validationResult} = require('express-validator');
 
 const handleValidation = (req, res, next) => {
+    
     const error = validationResult(req);
 
     if (!error.isEmpty()){
@@ -11,4 +12,8 @@ const handleValidation = (req, res, next) => {
     next();
 }
 
-module.exports = handleValidation;
+const inputValidationMiddleware = (validator) => {
+    return [validator, handleValidation]
+}
+
+module.exports = inputValidationMiddleware;

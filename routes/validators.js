@@ -5,23 +5,10 @@ exports.loginValidator = [
     body('email').isEmail().withMessage('Please provide a valid email'),
 
     body('password').notEmpty().withMessage('Please provide an password'),
-
-
-    // (req, res, next) => {
-    //     const err = validationResult(req);
-
-    //     if(!err.isEmpty()){
-    //         return res.status(400).json({
-    //             error: err.array()
-    //         });
-    //     }
-    //     next();
-    // }
 ]
 
 exports.updateUserValidator = [
 
     body('password').not().exists().withMessage("This route is not for password update. Please use /updateMyPassword2"),
     body('passwordConfirm').not().exists().withMessage("This route is not for password update. Please use /updateMyPassword2"),
-
 ]
