@@ -19,7 +19,7 @@ router.route('/monthly-plan/:year')
 
 
 router.route('/')
-    .get(authController.protect, tourController.getAllTours) // retrieve all the tours
+    .get(tourController.getAllTours) // retrieve all the tours
     .post(tourController.createTour); // to add a new tour
 
 

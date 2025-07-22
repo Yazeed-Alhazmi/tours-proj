@@ -10,10 +10,6 @@ exports.getAllTours = async (req, res) =>{
         // Query Build
         let matchQuery = {};
 
-        if(req.query.name){
-            matchQuery.name = req.query.name;
-        };
-
         if(req.query.duration){
             matchQuery.duration = req.query.duration * 1; // To convert it to a Number
         };
@@ -26,32 +22,20 @@ exports.getAllTours = async (req, res) =>{
             matchQuery.difficulty = req.query.difficulty;
         };
 
-        if(req.query.ratingsAverage){
-            matchQuery.ratingsAverage = req.query.ratingsAverage * 1;
-        };
+        if(req.query.minRating || req.query.maxRating){
 
-        if(req.query.ratingsQuantity){
-            matchQuery.ratingsQuantity = req.query.ratingsQuantity * 1;
+            matchQuery.ratingsAverage = {};
+            
+            if(req.query.minRating){
+            matchQuery.ratingsAverage.$gte = req.query.minRating*1;
+            }
+            if(req.query.maxRating){
+            matchQuery.ratingsAverage.$lte = req.query.maxRating*1;
+            }
         };
 
         if(req.query.price){
             matchQuery.price = req.query.price * 1;
-        };
-
-        if(req.query.summary){
-            matchQuery.summary = req.query.summary;
-        };
-
-        if(req.query.description){
-            matchQuery.description = req.query.description;
-        };
-
-        if(req.query.imageCover){
-            matchQuery.imageCover = req.query.imageCover;
-        };
-
-        if(req.query.images){
-            matchQuery.images = req.query.images;
         };
 
         if(req.query.startDates){
