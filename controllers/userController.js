@@ -23,23 +23,8 @@ exports.getAllUsers = async (req, res) => {
 };
 
 
-
-
-// filter function to allow only specific fields from the body to be updated by the user using the updateMe controller 
-const filterObj = (obj, ...allowedFields) => {
-
-    const newObj = {};
-    Object.keys(obj).forEach(el => {
-        if(allowedFields.includes(el)){
-            newObj[el] = obj[el];
-        }
-    });
-    return newObj;
-}
-
-
 // to update the user name and email
-exports.updateMe = async (req, res, next) => {
+exports.update = async (req, res, next) => {
     try {
 
         const userID = req.user.id;
@@ -73,7 +58,7 @@ exports.updateMe = async (req, res, next) => {
 };
 
 // to delete a user by updating the delete flag to 'true'
-exports.deleteMe = async (req, res) => {
+exports.delete = async (req, res) => {
     try {
 
         const userID = req.user.id;
