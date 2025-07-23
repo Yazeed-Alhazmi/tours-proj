@@ -1,7 +1,4 @@
 const Review = require('./../models/reviewModel');
-const User = require('./../models/userModel');
-const Tour = require('./../models/tourModel');
-const mongoose = require('mongoose');
 
 
 // this is for useres to write reviews on tours
@@ -39,15 +36,12 @@ exports.createReview = async (req, res, next) => {
 };
 
 
-// to retrieve all the reviews with the user name (author) and the tour name
+// to retrieve all the reviews using user id
 exports.getUserReviews = async (req, res) => {
     try {
 
        const userID = {}
-       console.log("I'm inn get user reviews");
        userID.user = req.user._id;
-       
-
 
         pipline = [
 
