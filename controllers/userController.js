@@ -1,6 +1,8 @@
 const User = require('./../models/userModel');
 const AppError = require('../utils/appError');
+const jwt = require('jsonwebtoken');
 
+const redisClient = require('../utils/redis');
 
 const catchAsync = fn => {
     
@@ -43,16 +45,12 @@ const filterObj = (obj, ...allowedFields) => {
     return newObj;
 }
 
-// exports.updateMeValidator = [
-//     body('password').not().exists().withMessage("This route is not for password update. Please use /updateMyPassword"),
-//     body('passwordConfirm').not().exists().withMessage("This route is not for password update. Please use /updateMyPassword")
-// ];
 
 // to update the user name and email
 exports.updateMe = async (req, res, next) => {
     try {
 
-        const filteredBody = filterObj(req.body, 'name', 'email', 'password');
+        const filteredBody = filterObj(req.body, 'name', 'email');
 
         const updatedUser = await User.findByIdAndUpdate(req.user.id, filteredBody, {new: true, runValidators: true});
         
@@ -89,4 +87,51 @@ exports.deleteMe = async (req, res, next) => {
             message: err
         });
     }
+};
+
+
+
+// to update the user name and email
+exports.updatePassword = async (req, res, next) => {
+    try {
+
+        const userID = req.user.id;
+        const newPass = req.body.password;
+        const newPassConfirm = req.body.passwordConfirm;
+
+        const user = await User.findById(userID);
+
+        user.password = newPass;
+        user.passwordConfirm = newPassConfirm;
+
+        await user.save();
+
+        let token
+        if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')){
+        token = req.headers.authorization.split(' ')[1];
+        }
+
+        if (token) {
+            const decoded = jwt.decode(token);
+            const expiresIn = decoded.exp - Math.floor(Date.now() / 1000);
+            await redisClient.set(token, 'blacklisted', {
+            expiresIn: expiresIn
+            });
+        }
+
+        
+            res.status(200).json({
+            status:"succsess",
+            data: {
+                user: user
+            }
+        });
+    }
+    catch (err) {
+        res.status(500).json({
+            status:"failed",
+            message: err
+        });
+    }
+
 };

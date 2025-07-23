@@ -5,6 +5,9 @@ const sendEmail = require('../utils/email');
 const {promisify} = require('util');
 const crypto = require('crypto');
 
+const redisClient = require('../utils/redis');
+
+
 
 const catchAsync = fn => {
     return (req, res, next) => {
@@ -95,6 +98,11 @@ exports.protect = catchAsync(async (req, res, next) => {
 
     if(!token){
         return next(new AppError('You are not logged in', 401)); 
+    }
+
+    const isBlacklisted = await redisClient.get(token);
+    if (isBlacklisted) {
+        return next(new AppError('Please log in again.', 401));
     }
 
     // decoding the token to get the user id
