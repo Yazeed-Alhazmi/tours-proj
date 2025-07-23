@@ -1,18 +1,10 @@
 const User = require('./../models/userModel');
 const AppError = require('../utils/appError');
 const jwt = require('jsonwebtoken');
-
 const redisClient = require('../utils/redis');
 
-const catchAsync = fn => {
-    
-    return (req, res, next) => {
-        fn(req, res, next).catch(next);
-    };
-};
 
-
-exports.getAllUsers = async (req, res, next) => {
+exports.getAllUsers = async (req, res) => {
     try {
         const users = await User.find();
         
@@ -50,9 +42,18 @@ const filterObj = (obj, ...allowedFields) => {
 exports.updateMe = async (req, res, next) => {
     try {
 
-        const filteredBody = filterObj(req.body, 'name', 'email');
+        const userID = req.user.id;
 
-        const updatedUser = await User.findByIdAndUpdate(req.user.id, filteredBody, {new: true, runValidators: true});
+        const body = {}
+
+        if(req.body.name){
+            body.name = req.body.name
+        }
+        if(req.body.email){
+            body.email = req.body.email
+        }
+
+        const updatedUser = await User.findByIdAndUpdate(userID, body, {new: true});
         
 
             res.status(200).json({
@@ -72,9 +73,12 @@ exports.updateMe = async (req, res, next) => {
 };
 
 // to delete a user by updating the delete flag to 'true'
-exports.deleteMe = async (req, res, next) => {
+exports.deleteMe = async (req, res) => {
     try {
-        await User.deleteById(req.user.id);
+
+        const userID = req.user.id;
+
+        await User.deleteById(userID);
 
         res.status(204).json({
             status:"succsess",
@@ -90,9 +94,7 @@ exports.deleteMe = async (req, res, next) => {
 };
 
 
-
-// to update the user name and email
-exports.updatePassword = async (req, res, next) => {
+exports.updatePassword = async (req, res) => {
     try {
 
         const userID = req.user.id;
