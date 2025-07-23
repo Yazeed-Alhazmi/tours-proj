@@ -7,16 +7,21 @@ const mongoose = require('mongoose');
 // this is for useres to write reviews on tours
 exports.createReview = async (req, res, next) => {
     try {
-        // adding the tour id to the request body
-        if(!req.body.tour) {
-            req.body.tour = req.params.tourId;
-        }
-        // adding the user id to the request body
-        if(!req.body.user) {
-            req.body.user = req.user.id;
+        const body = {}
+
+        if(req.body.review){
+            body.review = req.body.review;
         }
 
-        const review = await Review.create(req.body);
+        if(req.body.rating){
+            body.rating = req.body.rating;
+        }
+
+        body.tour = req.params.tourId;
+        
+        body.user = req.user.id;
+
+        const review = await Review.create(body);
 
         res.status(201).json({
             status: 'success',
@@ -37,19 +42,17 @@ exports.createReview = async (req, res, next) => {
 // to retrieve all the reviews with the user name (author) and the tour name
 exports.getUserReviews = async (req, res) => {
     try {
-        let matchQuery = {};
 
-        // retrieving all the reviews for a specific user from their name on the query
-        if(req.query.userName){
-            const user = await User.findOne({name:req.query.userName});
-            matchQuery.user = user._id;
-        };
+       const userID = {}
+       console.log("I'm inn get user reviews");
+       userID.user = req.user._id;
+       
 
 
         pipline = [
 
                 {
-                    $match: matchQuery
+                    $match: userID
                 },
                 {
                     $lookup: {
