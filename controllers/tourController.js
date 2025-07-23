@@ -22,20 +22,21 @@ exports.getAllTours = async (req, res) =>{
             matchQuery.difficulty = req.query.difficulty;
         };
 
-        if(req.query.minRating || req.query.maxRating){
-
-            matchQuery.ratingsAverage = {};
-            
-            if(req.query.minRating){
-            matchQuery.ratingsAverage.$gte = req.query.minRating*1;
-            }
-            if(req.query.maxRating){
-            matchQuery.ratingsAverage.$lte = req.query.maxRating*1;
-            }
+        if(req.query.minRating){
+        
+            matchQuery.ratingsAverage= {$gte: req.query.minRating*1};
         };
 
-        if(req.query.price){
-            matchQuery.price = req.query.price * 1;
+        if(req.query.minPrice || req.query.maxPrice){
+
+            matchQuery.price = {};
+            
+            if(req.query.minPrice){
+            matchQuery.price.$gte = req.query.minPrice*1;
+            }
+            if(req.query.maxPrice){
+            matchQuery.price.$lte = req.query.maxPrice*1;
+            }
         };
 
         if(req.query.startDates){
@@ -103,16 +104,19 @@ exports.getAllTours = async (req, res) =>{
 // To get a specific tour using it's id as a parameter
 exports.getTour = async (req, res, next) =>{
     try {
-        // populate the 'reviews' virtual field, that has all the reviews of the this specific tour
-        const tour = await Tour.findById(req.params.id).populate({
-        path: 'reviews',
-        select: 'name user rating'
-    });
 
+        const tourID = req.params.id;
+
+        // populate the 'reviews' virtual field, that has all the reviews of the this specific tour
+        const tour = await Tour.findById(tourID).populate({
+        path: 'reviews',
+        select: 'review rating user'
+    });
 
         if(!tour){
             return next(new AppError('no tour found with that ID', 404));
         }
+
 
         res.status(200).json({
             status:"succsess",
@@ -134,7 +138,49 @@ exports.getTour = async (req, res, next) =>{
 // To add a new tour
 exports.createTour = async (req, res) =>{
     try {
-        const newTour = await Tour.create(req.body);
+        const body = {};
+
+        if(req.body.name){
+            body.name = req.body.name;
+        }
+        
+        if(req.body.duration){
+            body.duration = req.body.duration;
+        }
+
+        if(req.body.maxGroupSize){
+            body.maxGroupSize = req.body.maxGroupSize;
+        }
+
+        if(req.body.difficulty){
+            body.difficulty = req.body.difficulty;
+        }
+
+        if(req.body.price){
+            body.price = req.body.price;
+        }
+
+        if(req.body.summary){
+            body.summary = req.body.summary;
+        }
+
+        if(req.body.imageCover){
+            body.imageCover = req.body.imageCover;
+        }
+
+        if(req.body.images){
+            body.images = req.body.images;
+        }
+
+        if(req.body.startDates){
+            body.startDates = req.body.startDates;
+        }
+
+        if(req.body.description){
+            body.description = req.body.description;
+        }
+
+        const newTour = await Tour.create(body);
 
         res.status(201).json({
             status: "success",
@@ -153,9 +199,52 @@ exports.createTour = async (req, res) =>{
 exports.updateTour = async (req, res) => {
     try {
 
-        const tour = await Tour.findByIdAndUpdate(req.params.id, req.body, {
-            new: true,
-            runValidators: true
+        const tourID = req.params.id;
+
+        const body = {};
+
+         if(req.body.name){
+            body.name = req.body.name;
+        }
+        
+        if(req.body.duration){
+            body.duration = req.body.duration;
+        }
+
+        if(req.body.maxGroupSize){
+            body.maxGroupSize = req.body.maxGroupSize;
+        }
+
+        if(req.body.difficulty){
+            body.difficulty = req.body.difficulty;
+        }
+
+        if(req.body.price){
+            body.price = req.body.price;
+        }
+
+        if(req.body.summary){
+            body.summary = req.body.summary;
+        }
+
+        if(req.body.imageCover){
+            body.imageCover = req.body.imageCover;
+        }
+
+        if(req.body.images){
+            body.images = req.body.images;
+        }
+
+        if(req.body.startDates){
+            body.startDates = req.body.startDates;
+        }
+
+        if(req.body.description){
+            body.description = req.body.description;
+        }  
+
+        const tour = await Tour.findByIdAndUpdate(tourID, body, {
+            new: true
         });
 
         res.status(200).json({
@@ -166,7 +255,7 @@ exports.updateTour = async (req, res) => {
         });
     }
     catch (err) {
-        res.status(404).json({
+        res.status(500).json({
             status:"failed",
             message: err
         });
@@ -176,7 +265,9 @@ exports.updateTour = async (req, res) => {
 exports.deleteTour = async (req, res) => {
     try {
 
-        await Tour.findByIdAndDelete(req.params.id);
+        const tourID = req.params.id;
+
+        await Tour.findByIdAndDelete(tourID);
 
         res.status(204).json({
             status:"succsess",
@@ -184,7 +275,7 @@ exports.deleteTour = async (req, res) => {
         });
     }
     catch (err) {
-        res.status(404).json({
+        res.status(500).json({
             status:"failed",
             message: err
         });

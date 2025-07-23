@@ -7,7 +7,7 @@ const reviewRouter = require('./reviewRoutes');
 const router = express.Router();
 
 // Nested route to post reviews for a specific tour
-router.post('/:tourId/reviews', reviewRouter);
+router.use('/:tourId/reviews', reviewRouter);
 
 // to get tours statistics
 router.route('/tour-stats')
